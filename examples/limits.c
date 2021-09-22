@@ -20,10 +20,17 @@ int main(void) {
     assert(c11lim_limits(signed int).digits     == 31);
     assert(c11lim_limits(signed int).digits10   == 9);
     
+#ifdef _WIN32
     assert(c11lim_limits(unsigned long).digits   == 32);
     assert(c11lim_limits(unsigned long).digits10 == 9);
     assert(c11lim_limits(signed long).digits     == 31);
     assert(c11lim_limits(signed long).digits10   == 9);
+#else
+    assert(c11lim_limits(unsigned long).digits   == 64);
+    assert(c11lim_limits(unsigned long).digits10 == 19);
+    assert(c11lim_limits(signed long).digits     == 63);
+    assert(c11lim_limits(signed long).digits10   == 18);
+#endif
     
     assert(c11lim_limits(unsigned long long).digits   == 64);
     assert(c11lim_limits(unsigned long long).digits10 == 19);

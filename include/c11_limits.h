@@ -204,9 +204,9 @@ _Generic((Type){0},                                             \
     signed long long:                                           \
         (c11lim_t(signed long long)){                           \
             c11lim_int_base,                                    \
-            .min        = LONG_LONG_MIN,                        \
-            .max        = LONG_LONG_MAX,                        \
-            .lowest     = LONG_LONG_MIN,                        \
+            .min        = LLONG_MIN,                            \
+            .max        = LLONG_MAX,                            \
+            .lowest     = LLONG_MIN,                            \
             .is_signed  = 1,                                    \
             .digits     = c11lim_digits(signed long long),      \
             .digits10   = c11lim_digits10(signed long long),    \
