@@ -2,6 +2,9 @@
 #define C11_LIMITS_HEADER
 #include <limits.h>
 #include <float.h>
+#if _MSC_VER && !defined(__clang__)
+#include <math.h>
+#endif
 
 typedef enum c_float_denorm_t { // constants for different IEEE float denormalization styles
     C11_DENORM_INDETERMINATE = -1,
