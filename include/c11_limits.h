@@ -81,6 +81,24 @@ struct {                                    \
 #   define c11lim_long_double_trap 0
 #endif
 
+#if _MSC_VER && !defined(__clang__)
+#define MS_DISABLE(...)
+#define c11_huge_valf() HUGE_VALF
+#define c11_huge_val()  HUGE_VAL
+#define c11_huge_vall() HUGE_VALL
+#define c11_nanf(x) nanf(x)
+#define c11_nan(x)  nan(x)
+#define c11_nanl(x) nanl(x)
+#else
+#define MS_DISABLE(...) __VA_ARGS__
+#define c11_huge_valf()  __builtin_huge_valf()
+#define c11_huge_val()   __builtin_huge_val()
+#define c11_huge_vall()  __builtin_huge_val()
+#define c11_nanf(x)      __builtin_nanf(x)
+#define c11_nan(x)       __builtin_nan(x)
+#define c11_nanl(x)      __builtin_nan(x)
+#endif
+
 //TODO: actually check if these booleans are correct
 #define c11lim_float_base                               \
     .has_denorm               = C11_DENORM_PRESENT,     \
@@ -102,6 +120,7 @@ struct {                                    \
     .is_specialized = 1,                    \
     .radix          = 2                     \
 
+//TODO: rethink nan, nans should probably only be called when needed as one of them signals
 #define c11lim_limits(Type)                                     \
 _Generic((Type){0},                                             \
     _Bool:                                                      \
@@ -129,6 +148,7 @@ _Generic((Type){0},                                             \
             .digits     = c11lim_digits(unsigned char),         \
             .digits10   = c11lim_digits10(unsigned char),       \
         },                                                      \
+    MS_DISABLE(                                                 \
     signed char:                                                \
         (c11lim_t(signed char)){                                \
             c11lim_int_base,                                    \
@@ -139,6 +159,7 @@ _Generic((Type){0},                                             \
             .digits    = c11lim_digits(signed char),            \
             .digits10  = c11lim_digits10(signed char),          \
         },                                                      \
+    )                                                           \
     unsigned short:                                             \
         (c11lim_t(unsigned short)){                             \
             c11lim_int_base,                                    \
@@ -221,9 +242,9 @@ _Generic((Type){0},                                             \
             .epsilon        = FLT_EPSILON,                      \
             .round_error    = 0.5f,                             \
             .denorm_min     = FLT_TRUE_MIN,                     \
-            .infinity       = __builtin_huge_valf(),            \
-            .quiet_NaN      = __builtin_nanf("0"),              \
-            .signaling_NaN  = __builtin_nanf("1"),              \
+            .infinity       = c11_huge_valf(),                  \
+            .quiet_NaN      = c11_nanf("0"),                    \
+            .signaling_NaN  = c11_nanf("1"),                    \
             .digits         = FLT_MANT_DIG,                     \
             .digits10       = FLT_DIG,                          \
             .max_exponent   = FLT_MAX_EXP,                      \
@@ -241,9 +262,9 @@ _Generic((Type){0},                                             \
             .epsilon        = DBL_EPSILON,                      \
             .round_error    = 0.5,                              \
             .denorm_min     = DBL_TRUE_MIN,                     \
-            .infinity       = __builtin_huge_val(),             \
-            .quiet_NaN      = __builtin_nan("0"),               \
-            .signaling_NaN  = __builtin_nan("1"),               \
+            .infinity       = c11_huge_val(),                   \
+            .quiet_NaN      = c11_nan("0"),                     \
+            .signaling_NaN  = c11_nan("1"),                     \
             .digits         = DBL_MANT_DIG,                     \
             .digits10       = DBL_DIG,                          \
             .max_exponent   = DBL_MAX_EXP,                      \
@@ -261,9 +282,9 @@ _Generic((Type){0},                                             \
             .epsilon        = LDBL_EPSILON,                     \
             .round_error    = 0.5L,                             \
             .denorm_min     = LDBL_TRUE_MIN,                    \
-            .infinity       = __builtin_huge_val(),             \
-            .quiet_NaN      = __builtin_nan("0"),               \
-            .signaling_NaN  = __builtin_nan("1"),               \
+            .infinity       = c11_huge_vall(),                  \
+            .quiet_NaN      = c11_nan("0"),                     \
+            .signaling_NaN  = c11_nan("1"),                     \
             .digits         = LDBL_MANT_DIG,                    \
             .digits10       = LDBL_DIG,                         \
             .max_exponent   = LDBL_MAX_EXP,                     \
