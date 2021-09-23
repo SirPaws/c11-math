@@ -82,6 +82,7 @@ struct {                                    \
 #endif
 
 #if _MSC_VER && !defined(__clang__)
+#pragma warning(disable: 4116)
 #define MS_DISABLE(...)
 #define c11_huge_valf() HUGE_VALF
 #define c11_huge_val()  HUGE_VAL
