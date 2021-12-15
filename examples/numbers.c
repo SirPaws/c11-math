@@ -1,5 +1,6 @@
 #include "c11_numbers.h"
 #include <assert.h>
+#include <stdio.h>
 
 int main(void) {
     {
@@ -17,6 +18,11 @@ int main(void) {
         float egamma     = c11_egamma(float);
         float phi        = c11_phi(float);
 
+        float radians    = c11_radians(45.0f);
+        float degrees    = c11_degrees(0.78539816339744830962f);
+        float inv_rad    = c11_degrees(radians);
+        float inv_deg    = c11_radians(degrees);
+        
         assert(e            == 2.718281828459045F);
         assert(log2e        == 1.4426950408889634F);
         assert(log10e       == 0.4342944819032518F);
@@ -30,6 +36,11 @@ int main(void) {
         assert(inv_sqrt3    == 0.5773502691896257F);
         assert(egamma       == 0.5772156649015329F);
         assert(phi          == 1.618033988749895F);
+
+        assert(radians - 0.785398F < 0.000001F);
+        assert(degrees - 45.0F     < 0.000001F);
+        assert(inv_rad - 45.0F     < 0.000001F);
+        assert(inv_deg - 0.785398F < 0.000001F);
     }
     {
         double e          = c11_e(double);
@@ -45,7 +56,12 @@ int main(void) {
         double inv_sqrt3  = c11_inv_sqrt3(double);
         double egamma     = c11_egamma(double);
         double phi        = c11_phi(double);
-
+        
+        double radians    = c11_radians(45.0);
+        double degrees    = c11_degrees(0.78539816339744830962);
+        double inv_rad    = c11_degrees(radians);
+        double inv_deg    = c11_radians(degrees);
+        
         assert(e            == 2.718281828459045);
         assert(log2e        == 1.4426950408889634);
         assert(log10e       == 0.4342944819032518);
@@ -59,6 +75,11 @@ int main(void) {
         assert(inv_sqrt3    == 0.5773502691896257);
         assert(egamma       == 0.5772156649015329);
         assert(phi          == 1.618033988749895);
+
+        assert(radians - 0.785398  < 0.000001);
+        assert(degrees - 45.0      < 0.000001);
+        assert(inv_rad - 45.0      < 0.000001);
+        assert(inv_deg - 0.785398  < 0.000001);
     }
     {
         long double e          = c11_e(long double);
@@ -74,6 +95,11 @@ int main(void) {
         long double inv_sqrt3  = c11_inv_sqrt3(long double);
         long double egamma     = c11_egamma(long double);
         long double phi        = c11_phi(long double);
+        
+        long double radians    = c11_radians(45.0L);
+        long double degrees    = c11_degrees(0.78539816339744830962L);
+        long double inv_rad    = c11_degrees(radians);
+        long double inv_deg    = c11_radians(degrees);
 
         assert(e            == 2.718281828459045L);
         assert(log2e        == 1.4426950408889634L);
@@ -88,6 +114,11 @@ int main(void) {
         assert(inv_sqrt3    == 0.5773502691896257L);
         assert(egamma       == 0.5772156649015329L);
         assert(phi          == 1.618033988749895L);
+        
+        assert(radians - 0.785398L < 0.000001L);
+        assert(degrees - 45.0L     < 0.000001L);
+        assert(inv_rad - 45.0L     < 0.000001L);
+        assert(inv_deg - 0.785398L < 0.000001L);
     }
 }
 
